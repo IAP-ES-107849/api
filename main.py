@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from db.create_database import create_tables
 from db.database import SessionLocal
 
-from routers import task
+from routers import user, task
 
 
 @asynccontextmanager
@@ -25,7 +25,7 @@ app = FastAPI(
     contact={
         "name": "TodoList",
     },
-    servers=[{"url": "http://localhost:8001", "description": "Local server"}],
+    servers=[{"url": "http://localhost:8000", "description": "Local server"}],
 )
 
 app.add_middleware(
@@ -36,8 +36,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(user.router)
 app.include_router(task.router)
-
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
