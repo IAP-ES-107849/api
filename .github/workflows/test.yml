@@ -26,7 +26,7 @@ jobs:
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
           echo "COGNITO_REDIRECT_URI=${{ secrets.COGNITO_REDIRECT_URI }}" >> .env
           echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> .env
-          echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> .env
+          echo "USER_POOL_ID=${{ secrets.USER_POOL_ID }}" >> .env
           echo "COGNITO_USER_CLIENT_ID=${{ secrets.COGNITO_USER_CLIENT_ID }}" >> .env
           echo "COGNITO_USER_CLIENT_SECRET=${{ secrets.COGNITO_USER_CLIENT_SECRET }}" >> .env
           echo "COGNITO_TOKEN_ENDPOINT=${{ secrets.COGNITO_TOKEN_ENDPOINT }}" >> .env
