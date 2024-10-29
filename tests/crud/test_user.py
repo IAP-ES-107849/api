@@ -27,18 +27,18 @@ def setup():
     my_sql_container.start()
     connection_url = my_sql_container.get_connection_url()
     engine = create_engine(connection_url, connect_args={})
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     UserModel.metadata.create_all(engine)
 
     def override_get_db():
-        db = SessionLocal()
+        db = sessionLocal()
         try:
             yield db
         finally:
             db.close()
 
     app.dependency_overrides[get_db] = override_get_db
-    yield SessionLocal
+    yield sessionLocal
     my_sql_container.stop()
 
 

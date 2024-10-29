@@ -30,8 +30,6 @@ def get_user_by_username(user_username: str, db: Session = Depends(get_db)):
     :return: User
     """
     user = db.query(UserModel).filter(UserModel.username == user_username).first()
-    # if user is None:
-    #     raise HTTPException(status_code=404, detail="User not found")
     return user
 
 def get_user_by_email(user_email: str, db: Session = Depends(get_db)):
