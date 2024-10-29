@@ -17,7 +17,6 @@ headers = {
     "Authorization": f"Basic {base64.b64encode(f'{cognito_user_client_id}:{cognito_user_client_secret}'.encode()).decode()}",
 }
 
-
 class RequestsMockResponse:
     def __init__(self, json_data, status_code):
         self.json_data = json_data
