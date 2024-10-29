@@ -15,6 +15,10 @@ response = requests.get(
     f"https://cognito-idp.{AWS_REGION}.amazonaws.com/{USER_POOL_ID}/.well-known/jwks.json"
 )
 
+# Check if 'keys' field is present in the response
+if 'keys' not in response.json():
+    raise ValueError("The 'keys' field is missing in the JWKS response")
+
 jwks = JWKS.model_validate(response.json())
 
 auth = JWTBearer(jwks)
