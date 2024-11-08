@@ -57,7 +57,7 @@ async def login(code: str, db: Session = Depends(get_db)):
         existing_user = get_user_by_username(
             new_user.username, db
         ) or get_user_by_email(new_user.email, db)
-        
+
         if not existing_user:
             create_user(new_user, db)
         else:
@@ -77,6 +77,7 @@ async def current_user(
     :param db: Database session.
     :return: User object if found, otherwise raise an HTTPException
     """
+    
     return JSONResponse(
         status_code=200,
         content=jsonable_encoder(get_user_by_username(user_username=username, db=db)),
