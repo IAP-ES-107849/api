@@ -1,4 +1,5 @@
 import os
+import logging
 
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, Request
@@ -12,7 +13,7 @@ from auth.JWTBearer import JWTAuthorizationCredentials, JWTBearer
 from auth.auth import jwks, get_current_user
 from auth.user_auth import auth_with_code, user_info_with_token, logout_with_token
 from models.user import User, save_user
-from crud.user import get_user_by_id, get_user_by_username
+from crud.user import get_user_by_id, get_user_by_username, get_user_by_email, create_user
 from schemas.user import UserCreate
 
 load_dotenv()
@@ -51,11 +52,16 @@ async def login(code: str, db: Session = Depends(get_db)):
         )
 
         # If the user does not exist, save it
-        if not (
-            db.query(User).filter(User.username == new_user.username).first()
-            or db.query(User).filter(User.email == new_user.email).first()
-        ):
-            save_user(new_user, db)
+        print("new user", new_user)
+        # Check if the user already exists
+        existing_user = get_user_by_username(
+            new_user.username, db
+        ) or get_user_by_email(new_user.email, db)
+        
+        if not existing_user:
+            create_user(new_user, db)
+        else:
+            logging.info(f"User '{new_user.username}' already exists in the database.")
 
         return JSONResponse(status_code=200, content=jsonable_encoder(token))
 
