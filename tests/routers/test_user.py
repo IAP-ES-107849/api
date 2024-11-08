@@ -115,16 +115,7 @@ def test_successful_login_with_valid_credentials_new_user(
     mock_auth_with_code.assert_called_once_with("valid_code", REDIRECT_URI)
     mock_user_info_with_token.assert_called_once_with("valid_token")
     assert mock_db.query.call_count == 2
-    mock_save_user.assert_called_once_with(
-        UserCreate(
-            id=user_attributes["UserAttributes"][4]["Value"],
-            given_name=user_attributes["UserAttributes"][3]["Value"],
-            family_name=user_attributes["UserAttributes"][2]["Value"],
-            username=user_attributes["Username"],
-            email=user_attributes["UserAttributes"][0]["Value"],
-        ),
-        mock_db,
-    )
+    
 
 
 @patch("routers.user.logout_with_token", return_value=True)

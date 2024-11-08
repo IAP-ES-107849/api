@@ -1,19 +1,25 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 class TaskBase(BaseModel):
     title: str
     description: str
-    deadline: Optional[str]
-    priority: Optional[int]
-    user_id: Optional[int]
-    status: Optional[str]
+    priority: int
+    deadline: Optional[datetime] = None
 
 class TaskCreate(TaskBase):
     pass
 
 class TaskUpdate(TaskBase):
-    pass
+    title: Optional[str]
+    description: Optional[str]
+    priority: Optional[int]
+    deadline: Optional[datetime]
+    status: Optional[str]
+    
 
 class TaskInDB(TaskBase):
-    id: int
+    id: str
+    status: str
+    created_at: datetime
