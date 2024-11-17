@@ -17,4 +17,4 @@ class Task(Base):
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     priority = Column(Integer, nullable=False)
     deadline = Column(DateTime(timezone=True), nullable=False)
-    status = Column(String(500), default="todo", nullable=False)
+    status = Column(String(500), default="Todo", nullable=False)
