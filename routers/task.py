@@ -12,7 +12,7 @@ from schemas.task import TaskCreate, TaskInDB, TaskUpdate
 from auth.auth import jwks, get_current_user
 from auth.JWTBearer import JWTBearer
 
-router = APIRouter(tags=["Tasks"])
+router = APIRouter(prefix="/api",tags=["Tasks"])
 
 auth = JWTBearer(jwks)
 
