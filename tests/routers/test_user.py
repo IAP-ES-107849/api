@@ -46,7 +46,7 @@ def reset_mock_db(mock_db):
 def test_unsuccessful_login_with_invalid_credentials(
     mock_auth_with_code, mock_user_info_with_token, mock_save_user, mock_db
 ):
-    response = client.post("/auth/sign-in?code=invalid_code")
+    response = client.post("/api/auth/sign-in?code=invalid_code")
 
     assert response.status_code == 401
     mock_auth_with_code.assert_called_once_with("invalid_code", REDIRECT_URI)
@@ -66,7 +66,7 @@ def test_successful_login_with_valid_credentials_found_username(
 ):
     mock_db.query.return_value.filter.return_value.first.side_effect = [True, False]
 
-    response = client.post("/auth/sign-in?code=valid_code")
+    response = client.post("/api/auth/sign-in?code=valid_code")
 
     assert response.status_code == 200
     assert response.json() == {"token": "valid_token", "expires_in": 100}
@@ -87,7 +87,7 @@ def test_successful_login_with_valid_credentials_found_email(
 ):
     mock_db.query.return_value.filter.return_value.first.side_effect = [False, True]
 
-    response = client.post("/auth/sign-in?code=valid_code")
+    response = client.post("/api/auth/sign-in?code=valid_code")
 
     assert response.status_code == 200
     assert response.json() == {"token": "valid_token", "expires_in": 100}
@@ -108,7 +108,7 @@ def test_successful_login_with_valid_credentials_new_user(
 ):
     mock_db.query.return_value.filter.return_value.first.side_effect = [False, False]
 
-    response = client.post("/auth/sign-in?code=valid_code")
+    response = client.post("/api/auth/sign-in?code=valid_code")
 
     assert response.status_code == 200
     assert response.json() == {"token": "valid_token", "expires_in": 100}
@@ -129,7 +129,7 @@ def test_successful_logout(mock_logout_with_token):
     )
 
     headers = {"Authorization": "Bearer token"}
-    response = client.get("/auth/logout", headers=headers)
+    response = client.get("/api/auth/logout", headers=headers)
 
     assert response.status_code == 200
     assert response.json() == "Logout successful"
@@ -150,7 +150,7 @@ def test_unsuccessful_logout(mock_logout_with_token):
     )
 
     headers = {"Authorization": "Bearer token"}
-    response = client.get("/auth/logout", headers=headers)
+    response = client.get("/api/auth/logout", headers=headers)
 
     assert response.status_code == 401
     assert response.json() == {"detail": "Error loging out..."}
