@@ -11,7 +11,7 @@ class Task(Base):
     __tablename__ = "tasks"
 
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String(36), ForeignKey("user.id"), nullable=False)
+    user_id = Column(String(36), ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     title = Column(String(500), nullable=False)
     description = Column(String(500))
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
